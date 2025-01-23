@@ -132,8 +132,11 @@ class SimpleCNN(nn.Module):
         x = self.pool(x)
         x = self.fc3(self.relu(self.fc2(self.relu(self.fc1(self.flatten(x))))))
         return x
-
-
+    
+    def extract_features(self, x):
+        x = self.batchnorm1(self.relu(self.conv1(x)))
+        x = self.pool(x)
+        return x
 
 class Simplex2NN(nn.Module):
     def __init__(self):
@@ -224,6 +227,7 @@ class ViTFeatureExtractor(nn.Module):
 
 class PretrainedVGG16Autoencoder(nn.Module):
     def __init__(self, latent_dim):
+        
         super(PretrainedVGG16Autoencoder, self).__init__()
         # Pretrained VGG16 as the encoder
         vgg16 = models.vgg16(pretrained=True)
